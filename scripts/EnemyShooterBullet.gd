@@ -7,18 +7,24 @@ extends Area2D
 
 var _direction: Vector2 = Vector2.RIGHT
 var _lifetime_timer: float = 0.0
+var _hit: bool = false
+
+func _ready() -> void:
+	body_entered.connect(_on_body_entered)
 
 func setup(dir: Vector2) -> void:
 	_direction = dir.normalized()
 	rotation = dir.angle()
 
 func _physics_process(delta: float) -> void:
+	if _hit:
+		return
 	var total_movement := _direction * speed * delta
 	_lifetime_timer += delta
 	if _lifetime_timer >= lifetime:
 		queue_free()
 		return
-	# Move in small steps with tree collision check — prevents tunneling
+	# Move in small steps — prevents tunneling through the player
 	var steps := maxi(1, int(ceil(total_movement.length() / 2.0)))
 	var step_vec := total_movement / float(steps)
 	for s in range(steps):
@@ -34,13 +40,14 @@ func _physics_process(delta: float) -> void:
 		if hit.size() > 0 and hit[0].collider.is_in_group("tree"):
 			queue_free()
 			return
-		# Check for player collision
-		var bodies := get_overlapping_bodies()
-		for body in bodies:
-			if body.has_method("take_damage"):
-				body.take_damage(damage)
-				queue_free()
-				return
+
+func _on_body_entered(body: Node) -> void:
+	if _hit:
+		return
+	if body.has_method("take_damage"):
+		_hit = true
+		body.take_damage(damage)
+		queue_free()
 
 func _draw() -> void:
 	# Red bullet
