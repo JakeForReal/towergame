@@ -11,7 +11,7 @@ speed = 200.0
 damage = 15.0
 lifetime = 4.0
 collision_layer = 0
-collision_mask = 1
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("cs1")
