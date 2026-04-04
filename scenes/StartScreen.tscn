@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://d8xk4m5n7pq2r"]
+[gd_scene format=3 uid="uid://ejpjk8fnivb0"]
 
 [ext_resource type="Script" uid="uid://5ae06a0f-281a-4eff-a932-271c83ec3c4e" path="res://scripts/StartScreen.gd" id="1_start"]
 
