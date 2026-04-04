@@ -1,0 +1,78 @@
+[gd_scene load_steps=3 format=3 uid="uid://d8xk4m5n7pq2r"]
+
+[ext_resource type="Script" uid="uid://5ae06a0f-281a-4eff-a932-271c83ec3c4e" path="res://scripts/StartScreen.gd" id="1_start"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.05, 0.05, 0.1, 0.92)
+
+[node name="StartScreen" type="Node2D"]
+script = ExtResource("1_start")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="BG" type="Panel" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchors_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="CanvasLayer/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 56
+text = "TOWERGAME"
+horizontal_alignment = 1
+
+[node name="Spacer1" type="Control" parent="CanvasLayer/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 30)
+
+[node name="Divider1" type="HSeparator" parent="CanvasLayer/VBox"]
+layout_mode = 2
+
+[node name="Spacer2" type="Control" parent="CanvasLayer/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+
+[node name="ControlsLabel" type="Label" parent="CanvasLayer/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "
+WASD / Arrow Keys     Move / Aim
+Left Click            Attack
+Right Click           Ability
+B                     Build Mode
+ESC                    Pause
+
+"
+horizontal_alignment = 1
+
+[node name="Spacer3" type="Control" parent="CanvasLayer/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+
+[node name="Divider2" type="HSeparator" parent="CanvasLayer/VBox"]
+layout_mode = 2
+
+[node name="Spacer4" type="Control" parent="CanvasLayer/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 30)
+
+[node name="PromptLabel" type="Label" parent="CanvasLayer/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.8, 0.8, 1)
+theme_override_font_sizes/font_size = 24
+text = "Press any key to start"
+horizontal_alignment = 1

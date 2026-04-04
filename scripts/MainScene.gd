@@ -1,12 +1,20 @@
 extends Node2D
 
-## Main scene controller — spawns player, starts the game, manages camera.
+## Main scene controller — shows start screen, then spawns player and starts the game.
 
 @export var player_scene: PackedScene = preload("res://scenes/PlayerCharacter.tscn")
 
 var _player: Node2D = null
 
 func _ready() -> void:
+	_show_start_screen()
+
+func _show_start_screen() -> void:
+	var start_screen = preload("res://scenes/StartScreen.tscn").instantiate()
+	start_screen.started.connect(_on_start_screen_finished)
+	add_child(start_screen)
+
+func _on_start_screen_finished() -> void:
 	_spawn_player()
 	_start_game()
 
