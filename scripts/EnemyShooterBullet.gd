@@ -9,20 +9,19 @@ var _direction: Vector2 = Vector2.RIGHT
 var _lifetime_timer: float = 0.0
 var _hit: bool = false
 var _owner_shooter: Node = null
-var _shape: CollisionShape2D
 
 func _ready() -> void:
-	_shape = get_node("CollisionShape2D")
-	body_entered.connect(_on_body_entered)
+	# Disable shape for 2 physics frames to avoid immediate self-hit after spawn
+	var shape := get_node("CollisionShape2D")
+	shape.set_deferred("disabled", true)
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	shape.set_deferred("disabled", false)
 
 func setup(dir: Vector2, shooter: Node = null) -> void:
 	_direction = dir.normalized()
 	rotation = dir.angle()
 	_owner_shooter = shooter
-	# Disable shape for one physics frame to avoid immediate self-hit
-	_shape.disabled = true
-	await get_tree().physics_frame
-	_shape.disabled = false
 
 func _physics_process(delta: float) -> void:
 	if _hit:
