@@ -12,14 +12,13 @@ var _owner_shooter: Node = null
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
-	set_physics_process(true)
 
 func setup(dir: Vector2, shooter: Node = null) -> void:
 	_direction = dir.normalized()
 	rotation = dir.angle()
 	_owner_shooter = shooter
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	if _hit:
 		return
 	_lifetime_timer += delta
