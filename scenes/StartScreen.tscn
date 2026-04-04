@@ -51,7 +51,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "WASD / Arrow Keys     Move / Aim
 Left Click            Attack
-Right Click           Ability
+Right Click           Build Tower
 ESC                    Pause"
 horizontal_alignment = 1
 
