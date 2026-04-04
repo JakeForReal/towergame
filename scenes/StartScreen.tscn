@@ -52,7 +52,6 @@ theme_override_font_sizes/font_size = 22
 text = "WASD / Arrow Keys     Move / Aim
 Left Click            Attack
 Right Click           Ability
-B                     Build Mode
 ESC                    Pause"
 horizontal_alignment = 1
 
