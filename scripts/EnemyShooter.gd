@@ -49,7 +49,7 @@ func _shoot_bullet(dir: Vector2) -> void:
 		return
 	var bullet: Node2D = bullet_scene.instantiate()
 	bullet.global_position = global_position
-	bullet.setup(dir)
+	bullet.setup(dir, self)
 	# Add to world
 	var world := get_tree().current_scene if get_tree().current_scene else get_parent()
 	world.add_child(bullet)
