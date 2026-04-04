@@ -5,25 +5,21 @@ extends Node2D
 signal started()
 
 var _started := false
+var _blink_timer := 0.0
+var _prompt_visible := true
+
+@onready var _prompt_label: Label = $CanvasLayer/VBox/PromptLabel
 
 func _ready() -> void:
-	_display_controls()
+	_blink_timer = 0.0
+	_prompt_visible = true
 
-func _display_controls() -> void:
-	var controls_label = $CanvasLayer/ControlsLabel
-	var text := "
-	TOWERGAME
-	========================================
-
-	WASD / Arrow Keys     Move / Aim
-	Left Click            Attack
-	Right Click           Ability
-	B                     Build Mode
-	ESC                    Pause
-
-	========================================
-	"
-	controls_label.text = text
+func _process(delta: float) -> void:
+	_blink_timer += delta
+	if _blink_timer >= 0.6:
+		_blink_timer = 0.0
+		_prompt_visible = not _prompt_visible
+		_prompt_label.visible = _prompt_visible
 
 func _unhandled_input(event: InputEvent) -> void:
 	if _started:

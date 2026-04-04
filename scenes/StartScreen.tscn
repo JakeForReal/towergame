@@ -49,14 +49,11 @@ custom_minimum_size = Vector2(0, 20)
 [node name="ControlsLabel" type="Label" parent="CanvasLayer/VBox"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
-text = "
-WASD / Arrow Keys     Move / Aim
+text = "WASD / Arrow Keys     Move / Aim
 Left Click            Attack
 Right Click           Ability
 B                     Build Mode
-ESC                    Pause
-
-"
+ESC                    Pause"
 horizontal_alignment = 1
 
 [node name="Spacer3" type="Control" parent="CanvasLayer/VBox"]
