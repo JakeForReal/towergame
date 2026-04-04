@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://item_shield_01"]
+
+[ext_resource type="Script" path="res://scripts/ItemPickup.gd" id="1"]
+
+[sub_resource type="CircleShape2D" id="cs1"]
+radius = 12.0
+
+[node name="ItemShield" type="Area2D"]
+script = ExtResource("1")
+collision_layer = 0
+collision_mask = 8
+item_type = "shield"
+item_color = Color(0.2, 0.5, 1.0, 1.0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("cs1")]

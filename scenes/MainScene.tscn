@@ -1,0 +1,227 @@
+[gd_scene format=3 uid="uid://cdkjbr40l0ebu"]
+
+[ext_resource type="Script" uid="uid://g7eslf0kejgb" path="res://autoloads/DifficultyManager.gd" id="1_dm"]
+[ext_resource type="Script" uid="uid://4e6cavo2v5l2" path="res://scripts/ui/HUD.gd" id="1_hud"]
+[ext_resource type="Script" uid="uid://dvaklfae63e6p" path="res://scripts/MainScene.gd" id="1_main"]
+[ext_resource type="Script" uid="uid://dtspfjxwe8j6j" path="res://autoloads/GameState.gd" id="2_gs"]
+[ext_resource type="Script" uid="uid://c27l12i1epr5s" path="res://autoloads/BuildingSystem.gd" id="3_bs"]
+[ext_resource type="Script" uid="uid://bg0idd1eti6sg" path="res://autoloads/EnemySpawner.gd" id="4_es"]
+
+[ext_resource type="PackedScene" path="res://scenes/EnemyGrunt.tscn" id="6_enemy"]
+
+[ext_resource type="PackedScene" path="res://scenes/EnemyBoss.tscn" id="8_boss"]
+[ext_resource type="PackedScene" path="res://scenes/EnemyShooter.tscn" id="10_shooter"]
+[ext_resource type="Script" uid="uid://item_spawn_01" path="res://autoloads/ItemSpawner.gd" id="11_item_spawner"]
+[ext_resource type="Script" uid="uid://map_dec_01" path="res://autoloads/MapDecorator.gd" id="9_md"]
+
+
+[node name="Main" type="Node2D" unique_id=844222405]
+script = ExtResource("1_main")
+
+[node name="DifficultyManager" type="Node" parent="." unique_id=1923977397]
+script = ExtResource("1_dm")
+
+[node name="GameState" type="Node" parent="." unique_id=1653742731]
+script = ExtResource("2_gs")
+
+[node name="BuildingSystem" type="Node" parent="." unique_id=1909258009]
+script = ExtResource("3_bs")
+
+[node name="EnemySpawner" type="Node" parent="." unique_id=2108626922]
+script = ExtResource("4_es")
+grunt_scene = ExtResource("6_enemy")
+boss_scene = ExtResource("8_boss")
+shooter_scene = ExtResource("10_shooter")
+
+[node name="PlayerSpawner" type="Marker2D" parent="." unique_id=106018333]
+
+[node name="Floor" type="ColorRect" parent="."]
+z_index = -10
+offset_left = -2250.0
+offset_top = -2250.0
+offset_right = 2250.0
+offset_bottom = 2250.0
+color = Color(0.12, 0.10, 0.09, 1.0)
+
+[node name="MapDecorator" type="Node2D" parent="."]
+script = ExtResource("9_md")
+map_radius = 1800.0
+rock_count = 120
+
+[node name="ItemSpawner" type="Node2D" parent="."]
+script = ExtResource("11_item_spawner")
+position = Vector2(100, 0)
+map_radius = 1500.0
+min_dist_from_center = 300.0
+item_count = 12
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=819518575]
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1525706734]
+script = ExtResource("1_hud")
+
+[node name="ScrapPanel" type="Panel" parent="HUD" unique_id=1103008355]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_right = -10.0
+offset_top = -60.0
+offset_bottom = -10.0
+
+[node name="Label" type="Label" parent="HUD/ScrapPanel" unique_id=620027438]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -15.0
+offset_right = 60.0
+offset_bottom = 15.0
+text = "SCRAP: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WaveLabel" type="Label" parent="HUD" unique_id=207354013]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_top = 10.0
+offset_right = 80.0
+offset_bottom = 35.0
+text = "MAP 1"
+horizontal_alignment = 1
+
+[node name="StatsPanel" type="Panel" parent="HUD"]
+anchors_preset = 2
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -175.0
+offset_right = 200.0
+offset_bottom = -10.0
+
+[node name="BG" type="ColorRect" parent="HUD/StatsPanel"]
+anchors_preset = 15
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
+color = Color(0.04, 0.07, 0.12, 0.93)
+
+[node name="BorderLeft" type="ColorRect" parent="HUD/StatsPanel"]
+anchors_preset = 10
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 3.0
+offset_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 0
+color = Color(0.2, 0.85, 1.0, 0.85)
+
+[node name="BorderRight" type="ColorRect" parent="HUD/StatsPanel"]
+anchors_preset = 10
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
+color = Color(0.2, 0.85, 1.0, 0.85)
+
+[node name="StatsLabel" type="Label" parent="HUD/StatsPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -88.0
+offset_top = -140.0
+offset_right = 88.0
+offset_bottom = 15.0
+theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
+theme_override_constants/outline_size = 2
+text = "STATS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="HUD" unique_id=555555551]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -80.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 35.0
+text = "00:00"
+horizontal_alignment = 1
+
+[node name="BuffLabel" type="Label" parent="HUD" unique_id=245932886]
+anchors_preset = 2
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 10.0
+offset_top = 80.0
+offset_right = 180.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameOverPanel" type="Panel" parent="HUD" unique_id=498824515]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -80.0
+offset_right = 150.0
+offset_bottom = 80.0
+
+[node name="GameOverLabel" type="Label" parent="HUD/GameOverPanel" unique_id=1123521469]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 20.0
+offset_bottom = 50.0
+grow_horizontal = 2
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="RestartLabel" type="Label" parent="HUD/GameOverPanel" unique_id=1964999769]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 60.0
+offset_bottom = 90.0
+grow_horizontal = 2
+text = "Press R to restart"
+horizontal_alignment = 1

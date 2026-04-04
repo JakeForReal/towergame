@@ -1,0 +1,208 @@
+[gd_scene load_steps=2 format=3 uid="uid://hud_scene"]
+
+[ext_resource type="Script" path="res://scripts/ui/HUD.gd" id="1"]
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="ScrapPanel" type="Panel" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -160.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 50.0
+
+[node name="Label" type="Label" parent="ScrapPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -30.0
+offset_right = 60.0
+offset_bottom = -5.0
+text = "SCRAP: 0"
+horizontal_alignment = 1
+
+[node name="StatsPanel" type="Panel" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -155.0
+offset_right = 200.0
+offset_bottom = -10.0
+
+[node name="BG" type="ColorRect" parent="StatsPanel"]
+anchors_preset = 15
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
+color = Color(0.04, 0.07, 0.12, 0.93)
+
+[node name="BorderTop" type="ColorRect" parent="StatsPanel"]
+anchors_preset = 10
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -190.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 3.0
+grow_horizontal = 0
+grow_vertical = 1
+color = Color(0.2, 0.85, 1.0, 0.85)
+
+[node name="BorderBottom" type="ColorRect" parent="StatsPanel"]
+anchors_preset = 10
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -190.0
+offset_top = -3.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
+color = Color(0.2, 0.85, 1.0, 0.85)
+
+[node name="BorderLeft" type="ColorRect" parent="StatsPanel"]
+anchors_preset = 10
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 3.0
+offset_bottom = 0.0
+grow_horizontal = 1
+grow_vertical = 0
+color = Color(0.2, 0.85, 1.0, 0.85)
+
+[node name="BorderRight" type="ColorRect" parent="StatsPanel"]
+anchors_preset = 10
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -3.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 0
+grow_vertical = 0
+color = Color(0.2, 0.85, 1.0, 0.85)
+
+[node name="CornerTL" type="ColorRect" parent="StatsPanel"]
+anchors_preset = 0
+offset_right = 4.0
+offset_bottom = 4.0
+grow_horizontal = 1
+grow_vertical = 1
+color = Color(0.2, 0.95, 1.0, 1.0)
+
+[node name="CornerTR" type="ColorRect" parent="StatsPanel"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+grow_horizontal = 0
+grow_vertical = 1
+color = Color(0.2, 0.95, 1.0, 1.0)
+
+[node name="StatsLabel" type="Label" parent="StatsPanel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -88.0
+offset_top = -140.0
+offset_right = 88.0
+offset_bottom = 15.0
+theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
+theme_override_constants/outline_size = 2
+text = "STATS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerLabel" type="Label" parent="."]
+anchors_preset = 9
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -70.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 30.0
+text = "00:00"
+horizontal_alignment = 1
+
+[node name="BuffLabel" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -60.0
+offset_right = -10.0
+offset_bottom = -10.0
+text = "(no buffs)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GameOverPanel" type="Panel" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -80.0
+offset_right = 150.0
+offset_bottom = 80.0
+
+[node name="GameOverLabel" type="Label" parent="GameOverPanel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -130.0
+offset_top = -50.0
+offset_right = 130.0
+offset_bottom = 50.0
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WaveLabel" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_top = 10.0
+offset_right = 80.0
+offset_bottom = 35.0
+text = "WAVE 1"
+horizontal_alignment = 1
