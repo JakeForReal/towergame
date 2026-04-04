@@ -11,12 +11,8 @@ var _hit: bool = false
 var _owner_shooter: Node = null
 
 func _ready() -> void:
-	# Disable shape for 2 physics frames to avoid immediate self-hit after spawn
-	var shape := get_node("CollisionShape2D")
-	shape.set_deferred("disabled", true)
-	await get_tree().physics_frame
-	await get_tree().physics_frame
-	shape.set_deferred("disabled", false)
+	body_entered.connect(_on_body_entered)
+	set_physics_process(true)
 
 func setup(dir: Vector2, shooter: Node = null) -> void:
 	_direction = dir.normalized()
