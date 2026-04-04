@@ -24,33 +24,37 @@ func _physics_process(delta: float) -> void:
 	if _lifetime_timer >= lifetime:
 		queue_free()
 		return
-	# Move in small steps — prevents tunneling through the player
+	# Move in small steps — prevents tunneling
 	var steps := maxi(1, int(ceil(total_movement.length() / 2.0)))
 	var step_vec := total_movement / float(steps)
 	for s in range(steps):
 		position += step_vec
-		# Check for tree collision
-		var params := PhysicsPointQueryParameters2D.new()
-		params.position = position
-		params.collision_mask = 8
-		params.collide_with_bodies = true
-		params.collide_with_areas = false
+		# Check for tree collision using shape queries
 		var space := get_world_2d().direct_space_state
-		var hit = space.intersect_point(params, 1)
-		if hit.size() > 0 and hit[0].collider.is_in_group("tree"):
+		var tree_params := PhysicsShapeQueryParameters2D.new()
+		tree_params.collision_mask = 8
+		tree_params.collide_with_bodies = true
+		tree_params.collide_with_areas = false
+		var tree_shape := CircleShape2D.new()
+		tree_shape.radius = 5.0
+		tree_params.shape = tree_shape
+		tree_params.transform = Transform2D(0, position)
+		var tree_hits = space.intersect_shape(tree_params, 1)
+		if tree_hits.size() > 0 and tree_hits[0].collider.is_in_group("tree"):
 			queue_free()
 			return
 
 func _on_body_entered(body: Node) -> void:
 	if _hit:
 		return
+	print("[Bullet] hit body: ", body.name, " groups=", body.get_groups(), " class=", body.get_class())
 	if body.has_method("take_damage"):
 		_hit = true
 		body.take_damage(damage)
 		queue_free()
+	else:
+		print("[Bullet] body has no take_damage: ", body)
 
 func _draw() -> void:
-	# Red bullet
 	draw_circle(Vector2.ZERO, 5.0, Color(1.0, 0.2, 0.2, 1.0))
-	# Bright core
 	draw_circle(Vector2.ZERO, 2.5, Color(1.0, 0.6, 0.6, 1.0))
