@@ -11,18 +11,21 @@ var _hit: bool = false
 var _owner_shooter: Node = null
 
 func _ready() -> void:
+	print("[Bullet] _ready at global_pos=", global_position)
 	# Disable shape for 2 frames to avoid self-hit on spawn
 	var shape := $CollisionShape2D as CollisionShape2D
 	shape.set_deferred("disabled", true)
 	await get_tree().physics_frame
 	await get_tree().physics_frame
 	shape.set_deferred("disabled", false)
+	print("[Bullet] shape enabled, global_pos=", global_position)
 
 func setup(dir: Vector2, shooter: Node = null) -> void:
 	_direction = dir.normalized()
 	rotation = dir.angle()
 	_owner_shooter = shooter
 	velocity = _direction * speed
+	print("[Bullet] setup done, velocity=", velocity, " global_pos=", global_position)
 
 func _physics_process(delta: float) -> void:
 	if _hit:
