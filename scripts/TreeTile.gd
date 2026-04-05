@@ -13,6 +13,13 @@ func _ready() -> void:
 	_size = (0.8 + randf() * 0.8) * size_scale
 	queue_redraw()
 
+	# Scale collision shape to match visual canopy size.
+	# Canopy circles are ~18px radius at scale 1.0 — collision now matches.
+	var collision_shape := $CollisionShape2D as CollisionShape2D
+	var new_shape := CircleShape2D.new()
+	new_shape.radius = max(20.0, 18.0 * _size)
+	collision_shape.shape = new_shape
+
 func _draw() -> void:
 	var s := _size
 	# Trunk

@@ -2,11 +2,11 @@ extends Node2D
 ## Scatters decorative rock tiles and solid trees randomly across the map at game start.
 
 @export var rock_scene: PackedScene = preload("res://scenes/RockTile.tscn")
-@export var rock_count: int = 120
+@export var rock_count: int = 300
 @export var tree_scene: PackedScene = preload("res://scenes/TreeTile.tscn")
-@export var tree_count: int = 40
-@export var map_radius: float = 1800.0  # How far rocks spread from center
-@export var min_dist_from_center: float = 225.0  # Keep center clear for gameplay
+@export var tree_count: int = 80
+@export var map_radius: float = 2250.0  # Covers the full map (MAP_HALF_SIZE)
+@export var min_dist_from_center: float = 100.0  # Keep only the base area clear
 
 func _ready() -> void:
 	_spawn_rocks()
