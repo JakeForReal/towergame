@@ -28,6 +28,7 @@ func setup(dir: Vector2, shooter: Node = null) -> void:
 	print("[Bullet] setup done, velocity=", velocity, " global_pos=", global_position)
 
 func _physics_process(delta: float) -> void:
+	print("[Bullet] _physics_process delta=", delta, " pos=", position, " vel=", velocity)
 	if _hit:
 		return
 	_lifetime_timer += delta
@@ -37,6 +38,7 @@ func _physics_process(delta: float) -> void:
 	
 	velocity = _direction * speed
 	move_and_slide()
+	print("[Bullet] after slide: pos=", position)
 	
 	# Check if we hit the player
 	for i in get_slide_collision_count():
