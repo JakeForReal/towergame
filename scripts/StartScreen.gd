@@ -19,7 +19,7 @@ func _process(delta: float) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if _started:
 		return
-	if event is InputEventKey and event.pressed:
+	if (event is InputEventKey and event.pressed) or (event is InputEventMouseButton and event.pressed):
 		_started = true
 		started.emit()
 		queue_free()
