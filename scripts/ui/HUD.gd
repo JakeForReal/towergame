@@ -165,7 +165,7 @@ func _update_stats_display() -> void:
 		return
 	var player_node = get_node_or_null("/root/Main/PlayerCharacter")
 	if not player_node:
-		_stats_label.text = "STATS\n------\nHP:       ---\nFIRE RT:  ---\nSHIELD:   ---\nDMG:      ---\nRANGE:    ---"
+		_stats_label.text = "STATS\n------\nHP:\t\t---\nFIRE RT:\t---\nSHIELD:\t---\nDMG:\t\t---\nRANGE:\t---"
 		return
 
 	var cb: CharacterBody2D = player_node as CharacterBody2D
@@ -190,11 +190,11 @@ func _update_stats_display() -> void:
 	var effective_cooldown: float = cooldown_val * (1.0 - buff_reduction)
 	var fire_rate_val: float = 1.0 / effective_cooldown if effective_cooldown > 0.0 else 0.0
 
-	var line_hp: String = "HP:       %.0f / %.0f" % [hp_val, max_hp_val]
-	var line_fr: String = "FIRE RT:  %.1f /s" % fire_rate_val
-	var line_sh: String = "SHIELD:   %.0f%%" % shield_pct
-	var line_dm: String = "DMG:      %.0f" % dmg_val
-	var line_rng: String = "RANGE:    %.0f" % range_val
+	var line_hp: String = "HP:\t\t%.0f / %.0f" % [hp_val, max_hp_val]
+	var line_fr: String = "FIRE RT:\t%.1f /s" % fire_rate_val
+	var line_sh: String = "SHIELD:\t%.0f%%" % shield_pct
+	var line_dm: String = "DMG:\t\t%.0f" % dmg_val
+	var line_rng: String = "RANGE:\t%.0f" % range_val
 
 	var new_text: String = "STATS\n------\n" + line_hp + "\n" + line_fr + "\n" + line_sh + "\n" + line_dm + "\n" + line_rng
 	if _stats_label.text != new_text:
