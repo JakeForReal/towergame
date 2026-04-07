@@ -126,23 +126,150 @@ grow_horizontal = 0
 grow_vertical = 1
 color = Color(0.2, 0.95, 1.0, 1.0)
 
-[node name="StatsLabel" type="Label" parent="StatsPanel"]
-layout_mode = 0
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="StatsBox" type="VBoxContainer" parent="StatsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = 8.0
-offset_right = 182.0
-offset_bottom = 143.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Header" type="Label" parent="StatsPanel/StatsBox"]
+layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
 theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
 theme_override_constants/outline_size = 2
 text = "STATS"
 horizontal_alignment = 0
-vertical_alignment = 0
+
+[node name="Sep" type="Label" parent="StatsPanel/StatsBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
+theme_override_constants/outline_size = 2
+text = "------"
+horizontal_alignment = 0
+
+[node name="HP" type="HBoxContainer" parent="StatsPanel/StatsBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="StatsPanel/StatsBox/HP"]
+layout_mode = 1
+size_flags_horizontal = 0
+custom_minimum_size = Vector2(85, 0)
+theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
+theme_override_constants/outline_size = 2
+text = "HP"
+horizontal_alignment = 0
+
+[node name="Val" type="Label" parent="StatsPanel/StatsBox/HP"]
+layout_mode = 1
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 2
+
+[node name="FR" type="HBoxContainer" parent="StatsPanel/StatsBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="StatsPanel/StatsBox/FR"]
+layout_mode = 1
+size_flags_horizontal = 0
+custom_minimum_size = Vector2(85, 0)
+theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
+theme_override_constants/outline_size = 2
+text = "FIRE RT"
+horizontal_alignment = 0
+
+[node name="Val" type="Label" parent="StatsPanel/StatsBox/FR"]
+layout_mode = 1
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 2
+
+[node name="SH" type="HBoxContainer" parent="StatsPanel/StatsBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="StatsPanel/StatsBox/SH"]
+layout_mode = 1
+size_flags_horizontal = 0
+custom_minimum_size = Vector2(85, 0)
+theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
+theme_override_constants/outline_size = 2
+text = "SHIELD"
+horizontal_alignment = 0
+
+[node name="Val" type="Label" parent="StatsPanel/StatsBox/SH"]
+layout_mode = 1
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 2
+
+[node name="DM" type="HBoxContainer" parent="StatsPanel/StatsBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="StatsPanel/StatsBox/DM"]
+layout_mode = 1
+size_flags_horizontal = 0
+custom_minimum_size = Vector2(85, 0)
+theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
+theme_override_constants/outline_size = 2
+text = "DMG"
+horizontal_alignment = 0
+
+[node name="Val" type="Label" parent="StatsPanel/StatsBox/DM"]
+layout_mode = 1
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 2
+
+[node name="RN" type="HBoxContainer" parent="StatsPanel/StatsBox"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Name" type="Label" parent="StatsPanel/StatsBox/RN"]
+layout_mode = 1
+size_flags_horizontal = 0
+custom_minimum_size = Vector2(85, 0)
+theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
+theme_override_constants/outline_size = 2
+text = "RANGE"
+horizontal_alignment = 0
+
+[node name="Val" type="Label" parent="StatsPanel/StatsBox/RN"]
+layout_mode = 1
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
+theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 2
 
 [node name="TimerLabel" type="Label" parent="."]
 anchors_preset = 9

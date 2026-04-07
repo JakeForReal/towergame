@@ -5,7 +5,11 @@ var _wave_label: Label
 var _game_over_panel: Panel
 var _buff_label: Label
 var _timer_label: Label
-var _stats_label: Label
+var _stat_hp_val: Label
+var _stat_fr_val: Label
+var _stat_sh_val: Label
+var _stat_dm_val: Label
+var _stat_rn_val: Label
 # buff_type -> count (int). Used for both stacking items and aura presence.
 var _active_buffs: Dictionary = {}
 var _can_place_tower: bool = true
@@ -20,7 +24,11 @@ func _ready() -> void:
 	_game_over_panel = get_node_or_null("GameOverPanel")
 	_buff_label = get_node_or_null("BuffLabel")
 	_timer_label = get_node_or_null("TimerLabel")
-	_stats_label = get_node_or_null("StatsPanel/StatsLabel")
+	_stat_hp_val = get_node_or_null("StatsPanel/StatsBox/HP/Val")
+	_stat_fr_val = get_node_or_null("StatsPanel/StatsBox/FR/Val")
+	_stat_sh_val = get_node_or_null("StatsPanel/StatsBox/SH/Val")
+	_stat_dm_val = get_node_or_null("StatsPanel/StatsBox/DM/Val")
+	_stat_rn_val = get_node_or_null("StatsPanel/StatsBox/RN/Val")
 
 	print("[HUD] _buff_label = ", _buff_label)
 	print("[HUD] _buff_label text = ", _buff_label.text if _buff_label else "NULL")
@@ -161,11 +169,15 @@ func restart_game() -> void:
 	get_tree().reload_current_scene()
 
 func _update_stats_display() -> void:
-	if not _stats_label:
+	if not _stat_hp_val:
 		return
 	var player_node = get_node_or_null("/root/Main/PlayerCharacter")
 	if not player_node:
-		_stats_label.text = "STATS\n------\nHP:      ------\nFIRE RT: ------\nSHIELD:  ------\nDMG:     ------\nRANGE:   ------"
+		_stat_hp_val.text = "---"
+		_stat_fr_val.text = "---"
+		_stat_sh_val.text = "---"
+		_stat_dm_val.text = "---"
+		_stat_rn_val.text = "---"
 		return
 
 	var cb: CharacterBody2D = player_node as CharacterBody2D
@@ -190,13 +202,9 @@ func _update_stats_display() -> void:
 	var effective_cooldown: float = cooldown_val * (1.0 - buff_reduction)
 	var fire_rate_val: float = 1.0 / effective_cooldown if effective_cooldown > 0.0 else 0.0
 
-	var line_hp: String = "HP:      %6.0f / %6.0f" % [hp_val, max_hp_val]
-	var line_fr: String = "FIRE RT: %6.1f /s" % fire_rate_val
-	var line_sh: String = "SHIELD:  %6.0f%%" % shield_pct
-	var line_dm: String = "DMG:     %6.0f" % dmg_val
-	var line_rng: String = "RANGE:   %6.0f" % range_val
-
-	var new_text: String = "STATS\n------\n" + line_hp + "\n" + line_fr + "\n" + line_sh + "\n" + line_dm + "\n" + line_rng
-	if _stats_label.text != new_text:
-		_stats_label.text = new_text
-		print("[HUD] stats updated: shield=", shield_count, " fire_rate=", fire_rate_val)
+	# HP shows both current and max in one cell
+	_stat_hp_val.text = "%.0f / %.0f" % [hp_val, max_hp_val]
+	_stat_fr_val.text = "%.1f /s" % fire_rate_val
+	_stat_sh_val.text = "%.0f%%" % shield_pct
+	_stat_dm_val.text = "%.0f" % dmg_val
+	_stat_rn_val.text = "%.0f" % range_val
