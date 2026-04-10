@@ -21,9 +21,16 @@ func _spawn_rocks() -> void:
 		rock.size_variation = 0.4 + randf() * 1.8
 		rock.rock_color = _random_rock_color()
 		
-		var angle := randf() * TAU
-		var dist := min_dist_from_center + randf() * (map_radius - min_dist_from_center)
-		rock.global_position = Vector2.from_angle(angle) * dist
+		# Square distribution: random x/y within bounds, skip inner clear zone
+		var x := 0.0
+		var y := 0.0
+		var in_clear_zone := true
+		while in_clear_zone:
+			x = -map_radius + randf() * 2.0 * map_radius
+			y = -map_radius + randf() * 2.0 * map_radius
+			var dist_from_center := Vector2(x, y).length()
+			in_clear_zone = dist_from_center < min_dist_from_center
+		rock.global_position = Vector2(x, y)
 		rock.rotation = randf() * TAU
 		rock.add_to_group("rock")
 		add_child(rock)
@@ -34,23 +41,45 @@ func _spawn_trees() -> void:
 		tree.size_scale = 0.7 + randf() * 0.8
 		tree.tree_color = _random_tree_color()
 		
-		var angle := randf() * TAU
-		var dist := min_dist_from_center + randf() * (map_radius - min_dist_from_center)
-		tree.global_position = Vector2.from_angle(angle) * dist
+		# Square distribution: random x/y within bounds, skip inner clear zone
+		var x := 0.0
+		var y := 0.0
+		var in_clear_zone := true
+		while in_clear_zone:
+			x = -map_radius + randf() * 2.0 * map_radius
+			y = -map_radius + randf() * 2.0 * map_radius
+			var dist_from_center := Vector2(x, y).length()
+			in_clear_zone = dist_from_center < min_dist_from_center
+		tree.global_position = Vector2(x, y)
 		tree.add_to_group("tree")
 		add_child(tree)
 
 func _spawn_edge_bushes() -> void:
-	# Dense bushes in the outer 250 units to fill the map edge
-	var edge_start := map_radius - 250.0
+	# Dense bushes along the outer edge of the square map
+	var edge_margin := 50.0  # Start bushes 50 units inside the edge
+	var x_min := -map_radius + edge_margin
+	var x_max := map_radius - edge_margin
+	var y_min := -map_radius + edge_margin
+	var y_max := map_radius - edge_margin
+	
 	for i in range(edge_bush_count):
 		var tree: Node2D = tree_scene.instantiate()
 		tree.size_scale = 0.7 + randf() * 0.8
 		tree.tree_color = _random_tree_color()
 		
-		var angle := randf() * TAU
-		var dist := edge_start + randf() * 250.0
-		tree.global_position = Vector2.from_angle(angle) * dist
+		# Pick a random position along the square perimeter
+		var x := x_min + randf() * (x_max - x_min)
+		var y := y_min + randf() * (y_max - y_min)
+		
+		# Clamp to a random edge (top, bottom, left, or right)
+		var edge := randi() % 4
+		match edge:
+			0: y = y_min  # top edge
+			1: y = y_max  # bottom edge
+			2: x = x_min  # left edge
+			3: x = x_max  # right edge
+		
+		tree.global_position = Vector2(x, y)
 		tree.add_to_group("tree")
 		add_child(tree)
 

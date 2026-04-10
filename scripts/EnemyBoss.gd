@@ -8,7 +8,7 @@ func _ready() -> void:
 	enemy_name = "BOSS"
 	enemy_tier = 2
 	base_hp = 480.0  # Triple original 160
-	move_speed = 60.0
+	move_speed = 78.0
 	attack_damage = 10.0
 	attack_range = 60.0
 	attack_cooldown = 1.2

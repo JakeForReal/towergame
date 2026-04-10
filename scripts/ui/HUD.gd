@@ -10,6 +10,7 @@ var _stat_fr_val: Label
 var _stat_sh_val: Label
 var _stat_dm_val: Label
 var _stat_rn_val: Label
+var _turret_ready_label: Label
 # buff_type -> count (int). Used for both stacking items and aura presence.
 var _active_buffs: Dictionary = {}
 var _can_place_tower: bool = true
@@ -29,6 +30,7 @@ func _ready() -> void:
 	_stat_sh_val = get_node_or_null("StatsPanel/StatsBox/SH/Val")
 	_stat_dm_val = get_node_or_null("StatsPanel/StatsBox/DM/Val")
 	_stat_rn_val = get_node_or_null("StatsPanel/StatsBox/RN/Val")
+	_turret_ready_label = get_node_or_null("TurretReadyLabel")
 
 	print("[HUD] _buff_label = ", _buff_label)
 	print("[HUD] _buff_label text = ", _buff_label.text if _buff_label else "NULL")
@@ -94,6 +96,8 @@ func _update_display() -> void:
 	if gs:
 		if _scrap_label:
 			_scrap_label.text = "SCRAP: %.0f" % gs.player_scrap
+		if _turret_ready_label:
+			_turret_ready_label.visible = gs.player_scrap >= 150.0
 		if _wave_label:
 			_wave_label.text = "MAP %d" % gs.current_map
 		if _game_over_panel:
@@ -109,9 +113,15 @@ func _update_display() -> void:
 	
 	_update_stats_display()
 	if _timer_label:
-		var mins := int(_game_time / 60.0)
-		var secs := int(fmod(_game_time, 60.0))
-		_timer_label.text = "%02d:%02d" % [mins, secs]
+		var spawner = get_node_or_null("/root/Main/EnemySpawner")
+		if spawner:
+			var countdown: float = spawner.get_boss_countdown()
+			var secs := int(ceil(countdown))
+			_timer_label.text = "Boss Spawns in: %02d" % secs
+		else:
+			var mins := int(_game_time / 60.0)
+			var secs := int(fmod(_game_time, 60.0))
+			_timer_label.text = "%02d:%02d" % [mins, secs]
 
 func on_buff_changed(buff_type: String, value: Variant) -> void:
 	_on_buff_changed(buff_type, value)

@@ -145,7 +145,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
 theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
 theme_override_constants/outline_size = 2
-text = "STATS"
+text = ""
 horizontal_alignment = 0
 
 [node name="Sep" type="Label" parent="StatsPanel/StatsBox"]
@@ -153,7 +153,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
 theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
 theme_override_constants/outline_size = 2
-text = "------"
+text = ""
 horizontal_alignment = 0
 
 [node name="HP" type="HBoxContainer" parent="StatsPanel/StatsBox"]
@@ -177,7 +177,7 @@ theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
 theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
 theme_override_constants/outline_size = 2
 text = "---"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="FR" type="HBoxContainer" parent="StatsPanel/StatsBox"]
 layout_mode = 2
@@ -200,7 +200,7 @@ theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
 theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
 theme_override_constants/outline_size = 2
 text = "---"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="SH" type="HBoxContainer" parent="StatsPanel/StatsBox"]
 layout_mode = 2
@@ -223,7 +223,7 @@ theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
 theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
 theme_override_constants/outline_size = 2
 text = "---"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="DM" type="HBoxContainer" parent="StatsPanel/StatsBox"]
 layout_mode = 2
@@ -246,7 +246,7 @@ theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
 theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
 theme_override_constants/outline_size = 2
 text = "---"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="RN" type="HBoxContainer" parent="StatsPanel/StatsBox"]
 layout_mode = 2
@@ -269,7 +269,7 @@ theme_override_colors/font_color = Color(0.72, 0.93, 1.0, 1.0)
 theme_override_colors/font_outline_color = Color(0.0, 0.3, 0.5, 1.0)
 theme_override_constants/outline_size = 2
 text = "---"
-horizontal_alignment = 2
+horizontal_alignment = 0
 
 [node name="TimerLabel" type="Label" parent="."]
 anchors_preset = 9

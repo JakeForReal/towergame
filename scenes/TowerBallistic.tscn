@@ -5,7 +5,9 @@
 [sub_resource type="CircleShape2D" id="cs1"]
 radius = 16.0
 
-[node name="TowerBallistic" type="Node2D"]
+[node name="TowerBallistic" type="StaticBody2D"]
+collision_layer = 8
+collision_mask = 0
 script = ExtResource("1")
 tower_name = "Ballistic Turret"
 tower_type = "ballistic"

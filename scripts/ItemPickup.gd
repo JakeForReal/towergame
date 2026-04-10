@@ -7,6 +7,7 @@ extends Area2D
 var _size: float = 14.0
 
 func _ready() -> void:
+	add_to_group("item")
 	collision_layer = 0
 	collision_mask = 8  # Detect player on layer 8
 	body_entered.connect(_on_collected)

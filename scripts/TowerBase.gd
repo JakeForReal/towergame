@@ -37,6 +37,7 @@ var _in_aura_range: bool = false
 var _build_cost_paid: bool = false
 
 func _ready() -> void:
+	add_to_group("tree")
 	_setup_components()
 	_set_tier(tier)
 	if auto_place:

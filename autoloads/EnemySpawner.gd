@@ -126,6 +126,9 @@ func _on_enemy_removed(enemy: Node2D) -> void:
 func get_active_count() -> int:
 	return _active_enemies.size()
 
+func get_boss_countdown() -> float:
+	return maxf(0.0, _boss_spawn_timer)
+
 func _spawn_boss() -> void:
 	if not boss_scene:
 		return

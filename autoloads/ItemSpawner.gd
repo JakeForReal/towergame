@@ -6,10 +6,11 @@ extends Node2D
 @export var item_count: int = 12
 @export var map_radius: float = 1500.0
 @export var min_dist_from_center: float = 300.0
-@export var min_dist_from_obstacle: float = 50.0  # Minimum distance from trees/rocks
+@export var min_dist_from_obstacle: float = 60.0  # Minimum distance from trees/rocks
 
 func _ready() -> void:
-	_spawn_items()
+	# Defer to ensure MapDecorator has finished spawning all trees/rocks first
+	call_deferred("_spawn_items")
 
 func _spawn_items() -> void:
 	for i in range(item_count):
@@ -31,7 +32,7 @@ func _spawn_random_item() -> void:
 	add_child(item)
 
 func _random_map_position() -> Vector2:
-	for attempt in range(100):  # Rejection sampling to avoid obstacles
+	for attempt in range(100):
 		var angle := randf() * TAU
 		var dist := min_dist_from_center + randf() * (map_radius - min_dist_from_center)
 		var pos := Vector2.from_angle(angle) * dist

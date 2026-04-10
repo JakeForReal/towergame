@@ -15,6 +15,7 @@ var _current_tower_cost: float = 0.0
 var _build_radius: float = 300.0  # Max distance from player to place towers
 var _is_building_mode: bool = false
 var _placed_towers: Array[Node] = []  # Track all placed towers for reset on death
+var _min_obstacle_dist: float = 30.0  # Minimum distance from any tree/enemy/tower
 
 # Tower definitions — maps tower type to scene path and cost
 var _tower_registry: Dictionary = {}
@@ -60,7 +61,7 @@ func _update_ghost_position() -> void:
 	var player_pos := player.global_position
 	var dist: float = player_pos.distance_to(mouse_pos)
 
-	_placement_valid = dist <= _build_radius
+	_placement_valid = dist <= _build_radius and _is_position_clear(mouse_pos)
 
 	if _ghost_instance:
 		_ghost_instance.global_position = mouse_pos
@@ -86,6 +87,11 @@ func place_tower_at(pos: Vector2) -> bool:
 		build_attempted.emit(false, "Too far from player")
 		return false
 
+	if not _is_position_clear(pos):
+		print("[BuildingSystem] Blocked by obstacle")
+		build_attempted.emit(false, "Cannot place there")
+		return false
+
 	if gs.player_scrap < _tower_cost:
 		build_attempted.emit(false, "Not enough scrap")
 		return false
@@ -108,7 +114,7 @@ func try_place_tower() -> bool:
 		return false
 	
 	if not _placement_valid:
-		build_attempted.emit(false, "Too far from player to place tower")
+		build_attempted.emit(false, "Cannot place there")
 		return false
 	
 	if _scrap < _current_tower_cost:
@@ -169,3 +175,22 @@ func clear_all_towers() -> void:
 			tower.queue_free()
 	_placed_towers.clear()
 	_scrap = 150.0
+
+func _is_position_clear(pos: Vector2) -> bool:
+	# Check distance from all trees/bushes
+	for tree in get_tree().get_nodes_in_group("tree"):
+		if tree.global_position.distance_to(pos) < _min_obstacle_dist:
+			return false
+	# Check distance from all enemies
+	for enemy in get_tree().get_nodes_in_group("enemy"):
+		if enemy.global_position.distance_to(pos) < _min_obstacle_dist:
+			return false
+	# Check distance from items
+	for item in get_tree().get_nodes_in_group("item"):
+		if item.global_position.distance_to(pos) < _min_obstacle_dist:
+			return false
+	# Check distance from other towers
+	for tower in _placed_towers:
+		if is_instance_valid(tower) and tower.global_position.distance_to(pos) < _min_obstacle_dist:
+			return false
+	return true
