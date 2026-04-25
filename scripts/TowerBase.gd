@@ -73,6 +73,8 @@ func _setup_components() -> void:
 	range_area.area_entered.connect(_on_enemy_entered)
 	range_area.area_exited.connect(_on_enemy_exited)
 
+var _idle_scan_timer: float = 0.0
+
 func _process(delta: float) -> void:
 	if not _placed:
 		return
@@ -83,6 +85,10 @@ func _process(delta: float) -> void:
 	
 	match _current_state:
 		TowerState.IDLE:
+			_idle_scan_timer += delta
+			if _idle_scan_timer >= 3.0:
+				_idle_scan_timer = 0.0
+				print("[Tower] IDLE — scanning for enemies in range=", range, " at pos=", global_position)
 			_find_target()
 		TowerState.TARGETING:
 			if not is_instance_valid(_target):
@@ -115,6 +121,7 @@ func _find_target() -> void:
 	if not range_area:
 		return
 	
+	# Primary: check overlapping areas (HurtboxComponent)
 	var enemies := range_area.get_overlapping_areas()
 	for enemy_area in enemies:
 		if enemy_area is HurtboxComponent:
@@ -123,6 +130,15 @@ func _find_target() -> void:
 				_target = owner
 				_set_state(TowerState.TARGETING)
 				return
+	
+	# Fallback: also check overlapping bodies — catches CharacterBody2D enemies
+	# that might not have a HurtboxComponent overlapping yet
+	var bodies := range_area.get_overlapping_bodies()
+	for body in bodies:
+		if body.is_in_group("enemy") and is_instance_valid(body):
+			_target = body
+			_set_state(TowerState.TARGETING)
+			return
 
 func _look_at_target() -> void:
 	if is_instance_valid(_target):
@@ -141,16 +157,42 @@ func perform_attack() -> void:
 	get_tree().current_scene.add_child(proj)
 	
 	_attack_cooldown = 1.0 / fire_rate
+	
+	print("[Tower] FIRE! target=", _target.name, " pos=", _target.global_position, " dmg=", get_effective_damage())
+	
+	# Muzzle flash — brief white circle at gun tip
+	var flash := Node2D.new()
+	flash.name = "MuzzleFlash"
+	var circle := ColorRect.new()
+	circle.color = Color(1.0, 0.9, 0.3, 1.0)
+	circle.offset_left = -5.0
+	circle.offset_top = -5.0
+	circle.offset_right = 5.0
+	circle.offset_bottom = 5.0
+	flash.add_child(circle)
+	flash.global_position = global_position + dir * 20.0
+	flash.rotation = dir.angle()
+	get_tree().current_scene.add_child(flash)
+	var tween := create_tween()
+	tween.tween_property(flash, "modulate:a", 0.0, 0.1)
+	tween.tween_callback(flash.queue_free)
+	print("[Tower] Muzzle flash spawned at ", flash.global_position)
 
 func _on_enemy_entered(area: Area2D) -> void:
-	if _current_state == TowerState.IDLE and area is HurtboxComponent:
+	print("[Tower] _on_enemy_entered: area=", area.name, " is HurtboxComponent=", area is HurtboxComponent)
+	if area is HurtboxComponent:
 		var owner = area.get_owner_node()
+		print("[Tower]   -> owner=", owner.name if owner else "null", " is_in_group(enemy)=", owner.is_in_group("enemy") if owner else false)
 		if owner and owner.is_in_group("enemy"):
 			_target = owner
 			_set_state(TowerState.TARGETING)
+			print("[Tower] TARGET ACQUIRED: ", owner.name)
 
 func _on_enemy_exited(area: Area2D) -> void:
-	if area.get_owner_node() == _target:
+	var area_owner = area.get_owner_node()
+	# Only clear target if it's the exact one that left
+	if area_owner == _target:
+		print("[Tower] Target ", _target.name, " left range")
 		_target = null
 		_set_state(TowerState.IDLE)
 
