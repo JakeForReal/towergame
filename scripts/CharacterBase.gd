@@ -3,8 +3,8 @@ extends CharacterBody2D
 signal damaged(amount: float)
 signal buff_changed(buff_type: String, stacks: int)
 
-@export var move_speed: float = 220.0
-@export var attack_cooldown: float = 0.4
+@export var move_speed: float = 176.0
+@export var attack_cooldown: float = 0.56
 @export var attack_damage: float = 20.0
 @export var max_health: float = 80.0
 @export var character_texture: Texture2D = null

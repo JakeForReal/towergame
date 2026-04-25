@@ -95,7 +95,7 @@ func _process(delta: float) -> void:
 				_set_state(TowerState.IDLE)
 			else:
 				_look_at_target()
-				if _attack_cooldown <= 0:
+				if _attack_cooldown <= 0 and _in_aura_range:
 					_set_state(TowerState.ATTACKING)
 		TowerState.ATTACKING:
 			perform_attack()
@@ -148,13 +148,16 @@ func perform_attack() -> void:
 	if not is_instance_valid(_target):
 		return
 	
+	var dir := (_target.global_position - global_position).normalized()
 	var projectile_scene: PackedScene = preload("res://scenes/Projectile.tscn")
 	var proj: Projectile = projectile_scene.instantiate()
-	proj.global_position = global_position
-	var dir := (_target.global_position - global_position).normalized()
+	# Spawn projectile slightly in front of tower to avoid getting stuck in tower's own collision body
+	proj.global_position = global_position + dir * 24.0
 	proj.launch(dir, get_effective_damage(), projectile_range)
 	# Add to world root
-	get_tree().current_scene.add_child(proj)
+	var parent_node := get_tree().current_scene
+	print("[Tower] Adding projectile to scene. current_scene=", parent_node, " proj.global_position=", proj.global_position)
+	parent_node.add_child(proj)
 	
 	_attack_cooldown = 1.0 / fire_rate
 	

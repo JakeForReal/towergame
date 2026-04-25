@@ -3,6 +3,9 @@ extends EnemyBase
 
 signal boss_killed
 
+const BULLET_SCENE: PackedScene = preload("res://scenes/EnemyShooterBullet.tscn")
+const CONE_ANGLE: float = PI / 3.0  # 60-degree cone (30° each side of center)
+
 func _ready() -> void:
 	# Set values BEFORE calling super so components init correctly
 	enemy_name = "BOSS"
@@ -36,26 +39,39 @@ func _physics_process(delta: float) -> void:
 		
 		if dist <= attack_range and _attack_timer <= 0:
 			_attack_timer = attack_cooldown
-			_do_damage()
+			_do_attack(dir)
 		
 		# Always keep moving toward player
 		_velocity_component.set_direction(dir)
 		_velocity_component.move(self)
 
-func _do_damage() -> void:
-	if not is_instance_valid(_target):
-		return
+func _do_attack(dir: Vector2) -> void:
+	# Contact damage
 	var dmg := attack_damage * _scaling_coefficient
 	if _target.has_method("take_damage"):
 		_target.take_damage(dmg)
 	elif _target.has_method("apply_damage"):
 		_target.apply_damage(dmg)
-	# Push player away on attack hit too
+	# Push player away
 	if _target is CharacterBody2D:
 		var push_dir := (_target.global_position - global_position).normalized()
 		if push_dir.length() < 0.1:
 			push_dir = Vector2.RIGHT
 		_target.velocity += push_dir * 200.0
+	# Shoot 3-bullet cone
+	_shoot_cone(dir)
+
+func _shoot_cone(facing_dir: Vector2) -> void:
+	var base_angle := facing_dir.angle()
+	var spread := CONE_ANGLE / 2.0  # 30° each side of center
+	for i in range(3):
+		var angle := base_angle + spread * (float(i) - 1.0)  # -spread, 0, +spread
+		var bullet_dir := Vector2.from_angle(angle)
+		var bullet: CharacterBody2D = BULLET_SCENE.instantiate()
+		bullet.global_position = global_position + bullet_dir * 20.0
+		bullet.setup(bullet_dir, self)
+		get_tree().current_scene.add_child(bullet)
+	print("[Boss] fired 3-bullet cone at angle=", base_angle)
 
 func _on_death() -> void:
 	boss_killed.emit()

@@ -7,8 +7,12 @@ var _dir: Vector2 = Vector2.RIGHT
 var _lifetime: float = 3.0
 var _max_distance: float = 200.0  # Default range in pixels
 var _distance_traveled: float = 0.0
+var _steps_moved: int = 0
 
 func _ready() -> void:
+	monitoring = true
+	monitorable = true
+	print("[Projectile] ready — monitoring=", monitoring, " collision_mask=", collision_mask)
 	area_entered.connect(_on_area_entered)
 	body_entered.connect(_on_body_entered)
 
@@ -19,12 +23,14 @@ func launch(dir: Vector2, dmg: float, range_pixels: float = 200.0) -> void:
 	_max_distance = range_pixels
 	_lifetime = 3.0
 	_distance_traveled = 0.0
+	_steps_moved = 0
 	print("[Projectile] launch: _dir=", _dir, " speed=", speed, " range=", range_pixels)
 
 func _process(delta: float) -> void:
 	var total_movement := _dir * speed * delta
 	_distance_traveled += total_movement.length()
 	if _distance_traveled >= _max_distance:
+		print("[Projectile] max distance reached, despawning")
 		queue_free()
 		return
 
@@ -34,6 +40,10 @@ func _process(delta: float) -> void:
 	var step_vec := total_movement / float(steps)
 	for s in range(steps):
 		global_position += step_vec
+		_steps_moved += 1
+		# Skip tree collision for first 2 steps to avoid spawning inside own tower's tree collision
+		if _steps_moved <= 2:
+			continue
 		# Point check at bullet position (small radius to find trees)
 		var params := PhysicsPointQueryParameters2D.new()
 		params.position = global_position
@@ -42,11 +52,12 @@ func _process(delta: float) -> void:
 		params.collide_with_areas = false
 		var hit = space.intersect_point(params, 1)
 		if hit.size() > 0 and hit[0].collider.is_in_group("tree"):
+			print("[Projectile] hit tree at ", global_position, " collider=", hit[0].collider.name)
 			queue_free()
 			return
 
 func _on_area_entered(area: Area2D) -> void:
-	print(">>> area_entered: ", area.name, " groups: ", area.get_groups())
+	print("[Projectile] area_entered: ", area.name, " groups=", area.get_groups(), " owner=", area.get_owner_node().name if area.get_owner_node() else "null")
 	if area.is_in_group("enemy_hurtbox"):
 		var enemy = area.get_parent()
 		if enemy:
