@@ -5,7 +5,7 @@ class_name EnemyBase
 @export var enemy_name: String = "Grunt"
 @export var enemy_tier: int = 0  # 0=basic, 1=medium, 2=elite
 @export var base_hp: float = 20.0
-@export var move_speed: float = 80.0
+@export var move_speed: float = 104.0  # 30% faster than original 80
 @export var attack_damage: float = 5.0
 @export var attack_range: float = 50.0  # Distance at which enemy attacks
 @export var attack_cooldown: float = 1.0

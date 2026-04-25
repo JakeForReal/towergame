@@ -33,20 +33,24 @@ func _physics_process(delta: float) -> void:
 	
 	# Always chase target — never fully stop
 	if is_instance_valid(_target):
-		var dist := global_position.distance_to(_target.global_position)
 		var dir := (_target.global_position - global_position).normalized()
 		_attack_timer -= delta
 		
-		if dist <= attack_range and _attack_timer <= 0:
-			_attack_timer = attack_cooldown
-			_do_attack(dir)
+		# Shoot a 3-bullet cone once per second while moving
+		if _attack_timer <= 0:
+			_attack_timer = 1.0
+			_shoot_cone(dir)
+		
+		# Contact damage only when actually in melee range
+		var dist := global_position.distance_to(_target.global_position)
+		if dist <= attack_range:
+			_do_contact_damage()
 		
 		# Always keep moving toward player
 		_velocity_component.set_direction(dir)
 		_velocity_component.move(self)
 
-func _do_attack(dir: Vector2) -> void:
-	# Contact damage
+func _do_contact_damage() -> void:
 	var dmg := attack_damage * _scaling_coefficient
 	if _target.has_method("take_damage"):
 		_target.take_damage(dmg)
@@ -58,8 +62,6 @@ func _do_attack(dir: Vector2) -> void:
 		if push_dir.length() < 0.1:
 			push_dir = Vector2.RIGHT
 		_target.velocity += push_dir * 200.0
-	# Shoot 3-bullet cone
-	_shoot_cone(dir)
 
 func _shoot_cone(facing_dir: Vector2) -> void:
 	var base_angle := facing_dir.angle()
